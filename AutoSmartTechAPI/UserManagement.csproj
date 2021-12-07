@@ -41,36 +41,6 @@
     <Reference Include="DataAccessLayer">
       <HintPath>..\..\UWL\Dev\DataAccess\bin\Debug\DataAccessLayer.dll</HintPath>
     </Reference>
-    <Reference Include="Ecng.Collections, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Ecng.Collections.1.0.88\lib\netstandard2.0\Ecng.Collections.dll</HintPath>
-    </Reference>
-    <Reference Include="Ecng.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Ecng.Common.1.0.85\lib\netstandard2.0\Ecng.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="Ecng.Configuration, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Ecng.Configuration.1.0.85\lib\netstandard2.0\Ecng.Configuration.dll</HintPath>
-    </Reference>
-    <Reference Include="Ecng.Localization, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Ecng.Localization.1.0.89\lib\netstandard2.0\Ecng.Localization.dll</HintPath>
-    </Reference>
-    <Reference Include="Ecng.PowerCollections, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Ecng.PowerCollections.1.0.30\lib\netstandard2.0\Ecng.PowerCollections.dll</HintPath>
-    </Reference>
-    <Reference Include="Ecng.Reflection, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Ecng.Reflection.1.0.89\lib\netstandard2.0\Ecng.Reflection.dll</HintPath>
-    </Reference>
-    <Reference Include="Ecng.Security, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Ecng.Security.1.0.89\lib\netstandard2.0\Ecng.Security.dll</HintPath>
-    </Reference>
-    <Reference Include="Ecng.Serialization, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Ecng.Serialization.1.0.94\lib\netstandard2.0\Ecng.Serialization.dll</HintPath>
-    </Reference>
-    <Reference Include="Ecng.SmartFormat, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Ecng.SmartFormat.1.0.0\lib\netstandard2.0\Ecng.SmartFormat.dll</HintPath>
-    </Reference>
-    <Reference Include="Ecng.Transactions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Ecng.Transactions.1.0.94\lib\netstandard2.0\Ecng.Transactions.dll</HintPath>
-    </Reference>
     <Reference Include="Lokad.ILPack, Version=0.1.7.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Lokad.ILPack.0.1.7\lib\net46\Lokad.ILPack.dll</HintPath>
     </Reference>
@@ -178,9 +148,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\UserManage\IUserManage.cs" />
+    <Compile Include="Services\UserManage\RolePermission.cs" />
+    <Compile Include="Services\UserManage\UserEmail.cs" />
     <Compile Include="Services\UserManage\UserManage.cs" />
     <Compile Include="Services\UserManage\UserManagerMain.cs" />
     <Compile Include="Services\UserManage\UserPassword.cs" />
+    <Compile Include="Services\UserManage\Permission.cs" />
+    <Compile Include="Services\UserManage\Role.cs" />
+    <Compile Include="Services\UserManage\UserRoles.cs" />
     <Compile Include="Services\UserManage\UserToken.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -72,5 +72,26 @@ namespace AutoSmartTechAPI.Services.UserManager
         }
 
 
+        public List<Permission> GetAllPermissionsByRolesAndUserId(Guid userId)
+        {
+            var roles = FindUserRoleById(userId);
+            List<Permission> permissions = new List<Permission>();
+            if (roles != null)
+            {
+                foreach (var role in roles)
+                {
+                   var rolePermissions =  FindRolePermissionsByRoleId(role.Id);
+                    foreach (var rolePermsm in rolePermissions)
+                    {
+                      var permissionList =   FindAllPermissionById(rolePermsm.PermissionId);
+                       permissions.AddRange(permissionList);
+                    }
+                   
+                   
+                }
+            }
+            return permissions;
+        }
+
     }
 }
