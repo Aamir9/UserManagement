@@ -14,9 +14,9 @@ namespace AutoSmartTechAPI.Services.UserManager
         }
   
 
-        public async Task<Role> FindRoleById(Guid Id)
+        public  List<Role> FindRoleById(int roleId)
         {
-            return await this._unitOfWork.RoleRepository.GetFirstOrDefaultAsync(a => a.IsActive == true );
+            return  this._unitOfWork.RoleRepository.GetMany( a=> a.Id  == roleId);
         }
 
 

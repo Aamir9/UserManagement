@@ -13,7 +13,7 @@ namespace AutoSmartTechAPI.Services.UserManager
         }
 
 
-        public List<UserRole> FindUserRoleById(Guid Id)
+        public List<UserRole> FindUserRolesByUserId(Guid Id)
         {
            return   this._unitOfWork.UserRoleRepository.GetMany(a => a.UserId == Id);
         }
