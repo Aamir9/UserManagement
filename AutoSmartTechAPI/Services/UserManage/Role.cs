@@ -19,6 +19,11 @@ namespace AutoSmartTechAPI.Services.UserManager
             return  this._unitOfWork.RoleRepository.GetMany( a=> a.Id  == roleId);
         }
 
+        public Role FindRoleByRoleName(string roleName)
+        {
+            return  this._unitOfWork.RoleRepository.GetFirstOrDefault(a => a.Name == roleName);
+        }
+
 
         public void insertRole(Role entity){
 
