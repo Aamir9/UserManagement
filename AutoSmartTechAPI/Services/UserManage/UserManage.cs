@@ -31,7 +31,6 @@ namespace AutoSmartTechAPI.Services.UserManager
            return _unitOfWork.SaveChangesAsync();
         }
 
-
         public void Insert(User entity)
         {
             _unitOfWork.UserRepository.Insert(entity);
@@ -71,27 +70,18 @@ namespace AutoSmartTechAPI.Services.UserManager
                 dbUser.Races.Remove(deletedRace);
         }
 
-
-        public List<Permission> GetAllPermissionsByRolesAndUserId(Guid userId)
+        private static Guid NullableGuidAssigToGuid(Guid? userId)
         {
-            var roles = FindUserRolesByUserId(userId);
-            List<Permission> permissions = new List<Permission>();
-            if (roles != null)
-            {
-                foreach (var role in roles)
-                {
-                   var rolePermissions =  FindRolePermissionsByRoleId(role.Id);
-                    foreach (var rolePermsm in rolePermissions)
-                    {
-                      var permissionList =   FindAllPermissionById(rolePermsm.PermissionId);
-                       permissions.AddRange(permissionList);
-                    }
-                   
-                   
-                }
-            }
-            return permissions;
+            return userId.HasValue ? userId.Value : Guid.Empty;
         }
 
+        private List<Role> FindUserRolesToRoles(List<Role> roles, List<UserRole> UserRoles)
+        {
+            foreach (var userRole in UserRoles)
+            {
+                roles = FindRoleById(userRole.Id);
+            }
+            return roles;
+        }
     }
 }

@@ -8,9 +8,9 @@ namespace AutoSmartTechAPI.Services.UserManager
     public partial class UserManage
     {
 
-        public async Task<List<Role>> FindAllRoleAsync()
+        public  List<Role> FindAllRole()
         {
-            return await this._unitOfWork.RoleRepository.FindAllAsync( a => a.IsActive == true);
+            return  this._unitOfWork.RoleRepository.FindAll(true);
         }
   
 
@@ -39,7 +39,21 @@ namespace AutoSmartTechAPI.Services.UserManager
         {
             _unitOfWork.RoleRepository.Delete(Id);
         }
-
+        public List<Role> GetAllRoles(Guid? userId)
+        {
+            List<Role> roles = new List<Role>();
+            if (userId != null && userId.HasValue)
+            {
+                Guid id = NullableGuidAssigToGuid(userId);
+                var UserRoles = FindUserRolesByUserId(id);
+                roles = FindUserRolesToRoles(roles, UserRoles);
+            }
+            else
+            {
+                roles = FindAllRole();
+            }
+            return roles;
+        }
 
 
     }

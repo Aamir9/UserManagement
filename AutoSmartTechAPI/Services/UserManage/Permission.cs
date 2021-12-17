@@ -26,5 +26,44 @@ namespace AutoSmartTechAPI.Services.UserManager
         {
             _unitOfWork.PermissionRepository.Delete(Id);
         }
+
+        public List<Permission> FindAllPermission()
+        {
+            return  _unitOfWork.PermissionRepository.FindAll(true);
+        }
+        public List<Permission> GetAllPermissions(Guid? userId)
+        {
+            List<Permission> permissions = new List<Permission>();
+            if (userId != null && userId.HasValue)
+            {
+                Guid id = NullableGuidAssigToGuid(userId);
+                var roles = FindUserRolesByUserId(id);
+                if (roles != null)
+                {
+                    FindRolesToRolesPermissions(permissions, roles);
+                }
+            }
+            else
+            {
+                permissions = FindAllPermission();
+            }
+            return permissions;
+        }
+
+        public List<Permission> GetAllPermissionsByRoleId(int roleId)
+        {
+            List<Permission> permissions = new List<Permission>();
+            if ( roleId > 0)
+            {
+                var roles = FindRolePermissionsByRoleId(roleId);
+                if (roles != null)
+                {
+                    var rolePermissions = FindRolePermissionsByRoleId(roleId);
+                    FindPermissionsListFromRolesPermissions(permissions, rolePermissions);
+                }
+            }
+ 
+            return permissions;
+        }
     }
 }

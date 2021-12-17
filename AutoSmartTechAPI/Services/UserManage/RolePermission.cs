@@ -32,5 +32,23 @@ namespace AutoSmartTechAPI.Services.UserManager
         {
             _unitOfWork.RolePermissionRepository.Delete(Id);
         }
+
+        private void FindRolesToRolesPermissions(List<Permission> permissions, List<UserRole> roles)
+        {
+            foreach (var role in roles)
+            {
+                var rolePermissions = FindRolePermissionsByRoleId(role.Id);
+                FindPermissionsListFromRolesPermissions(permissions, rolePermissions);
+            }
+        }
+
+        private void FindPermissionsListFromRolesPermissions(List<Permission> permissions, List<RolePermission> rolePermissions)
+        {
+            foreach (var rolePermsm in rolePermissions)
+            {
+                var permissionList = FindAllPermissionById(rolePermsm.PermissionId);
+                permissions.AddRange(permissionList);
+            }
+        }
     }
 }

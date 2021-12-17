@@ -21,14 +21,16 @@ namespace AutoSmartTechAPI.Services.UserManage
         Task<bool> SetTempPasswordAsync(Guid userId, string password);
         Task<bool> UpdateTokenAsync(Guid userId, String resetPasswordToken);
         void DeleteUnSelectedObjects(User dbUser, IList<int> userEthnicityIds, IList<int> userRaceIdsk);
-        List<Permission> GetAllPermissionsByRolesAndUserId(Guid userId);
+        List<Permission> GetAllPermissions(Guid? userId);
+        List<Role> GetAllRoles(Guid? userId);
         string FindEmailById(Guid userId);
         List<Permission> FindAllPermissionById(int Id);
         List<RolePermission> FindRolePermissionsByRoleId(int Id);
         List<Role> FindRoleById(int roleId);
         Role FindRoleByRoleName(string roleName);
 
-        //Task<List<Role>> FindAllRoleAsync();
+        List<Role> FindAllRole();
+        List<Permission> FindAllPermission();
         //Task<Role> FindRoleById(Guid Id);
         //void insertRole(Role entity);
         //void updateRole(Role entity);
