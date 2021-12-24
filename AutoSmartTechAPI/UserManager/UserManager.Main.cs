@@ -1,17 +1,16 @@
-﻿using AutoSmartTechAPI.Services.UserManage;
-using DataAccessLayer.Services;
+﻿using DataAccessLayer.Services;
 using System;
 
-namespace AutoSmartTechAPI.Services.UserManager
+namespace AutoSmartTechAPI.UserManager
 {
 
-    public partial class UserManage : IDisposable, IUserManage
+    public partial class UserManager : IUserManager, IDisposable
     {
         #region Private variables...
         private readonly IUnitOfWork _unitOfWork;
         private bool disposed;
         #endregion
-       public UserManage()
+        public UserManager()
         {
             _unitOfWork = new UnitOfWork();
         }
@@ -32,18 +31,15 @@ namespace AutoSmartTechAPI.Services.UserManager
             }
             this.disposed = true;
         }
-
         /// <summary>
         /// Dispose method
         /// </summary>
         public void Dispose()
         {
-
             Dispose(true);
             GC.SuppressFinalize(this);
 
         }
-
 
         #endregion
     }

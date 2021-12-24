@@ -1,19 +1,31 @@
-﻿using AutoSmartTechAPI.Services.UserManage;
+﻿using DataAccessLayer.DataEntities;
 using DataAccessLayer.Services;
 using System;
+using System.Collections.Generic;
 
-namespace AutoSmartTechAPI.Services.UserManager
+namespace AutoSmartTechAPI.PermissonManager
 {
-
-    public partial class UserManage : IDisposable, IUserManage
+    public interface IPermissionManager
+    {
+        List<Permission> GetAllPermissions(Guid? userId);
+        List<Permission> FindAllPermissionById(int Id);
+        List<Permission> GetAllPermissionsByRoleId(int roleId);
+        List<Permission> FindAllPermission();
+    }
+    public partial class PermissionManager : IPermissionManager, IDisposable
     {
         #region Private variables...
         private readonly IUnitOfWork _unitOfWork;
         private bool disposed;
+        private bool disposedValue;
+        private AutoSmartTechAPI.UserManager.UserManager _userManager;
+        private AutoSmartTechAPI.RoleManager.RoleManager _roleManager;
         #endregion
-       public UserManage()
+        public PermissionManager(AutoSmartTechAPI.UserManager.UserManager userManager, AutoSmartTechAPI.RoleManager.RoleManager roleManager)
         {
+            _userManager = userManager;
             _unitOfWork = new UnitOfWork();
+            _roleManager = roleManager;
         }
 
         #region Implementing IDiosposable...
@@ -32,19 +44,17 @@ namespace AutoSmartTechAPI.Services.UserManager
             }
             this.disposed = true;
         }
-
         /// <summary>
         /// Dispose method
         /// </summary>
         public void Dispose()
         {
-
             Dispose(true);
             GC.SuppressFinalize(this);
 
         }
 
-
         #endregion
+
     }
 }

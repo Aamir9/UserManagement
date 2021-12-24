@@ -26,6 +26,7 @@ namespace AutoSmartTechAPI.Services.UserManage
         string FindEmailById(Guid userId);
         List<Permission> FindAllPermissionById(int Id);
         List<RolePermission> FindRolePermissionsByRoleId(int Id);
+        List<Permission> GetAllPermissionsByRoleId(int roleId);
         List<Role> FindRoleById(int roleId);
         Role FindRoleByRoleName(string roleName);
 

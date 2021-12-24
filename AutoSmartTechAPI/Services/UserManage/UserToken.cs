@@ -8,7 +8,6 @@ namespace AutoSmartTechAPI.Services.UserManager
     {
         public async Task<bool> UpdateTokenAsync(Guid userId, string resetPasswordToken)
         {
-
             var user = FindById(userId);
             if (user == null)
                 throw new ArgumentException("User Password model does not correspond to a User entity.", "user");
