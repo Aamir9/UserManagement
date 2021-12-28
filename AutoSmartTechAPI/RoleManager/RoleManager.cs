@@ -9,120 +9,40 @@ namespace AutoSmartTechAPI.RoleManager
     {
         public List<Role> FindAllRole()
         {
-            try
-            {
-                return this._unitOfWork.RoleRepository.FindAll(true);
-            }
-            catch (Exception ex)
-            {
-                ExceptionsAndLogging.CatchExceptionAndLogging(ex);
-                return null;
-            }  
+           return roleStoreManager.FindAllRole();
+            
         }
         public List<Role> FindRoleById(int roleId)
         {
-            ExceptionsAndLogging.NullExceptionsLogging(roleId);
-            try
-            {
-                return this._unitOfWork.RoleRepository.GetMany(a => a.Id == roleId);
-            }
-            catch (Exception ex)
-            {
-                ExceptionsAndLogging.CatchExceptionAndLogging(ex);
-                return null;
-            }
+          return  roleStoreManager.FindRoleById(roleId);
+           
         }
         public Role FindRoleByRoleName(string roleName)
         {
-            ExceptionsAndLogging.NullExceptionsLogging(roleName);
-            try
-            {
-                return this._unitOfWork.RoleRepository.GetFirstOrDefault(a => a.Name == roleName);
-            }
-            catch (Exception ex)
-            {
-                ExceptionsAndLogging.CatchExceptionAndLogging(ex);
-                return null;
-            }
+           return roleStoreManager.FindRoleByRoleName(roleName);
         }
         public void insertRole(Role entity)
         {
-            ExceptionsAndLogging.NullExceptionsLogging(entity);
-            try
-            {
-                _unitOfWork.RoleRepository.Insert(entity);
-            }
-            catch (Exception ex)
-            {
-                ExceptionsAndLogging.CatchExceptionAndLogging(ex);
-                
-            }
+          roleStoreManager.insertRole(entity);
            
         }
         public void updateRole(Role entity)
         {
-            ExceptionsAndLogging.NullExceptionsLogging(entity);
-            try
-            {
-                _unitOfWork.RoleRepository.Update(entity);
-            }
-            catch (Exception ex)
-            {
-                ExceptionsAndLogging.CatchExceptionAndLogging(ex);
-
-            }
-          
+           roleStoreManager.updateRole(entity);
         }
         public void deleteRole(object Id)
         {
-            ExceptionsAndLogging.NullExceptionsLogging(Id);
-            try
-            {
-                _unitOfWork.RoleRepository.Delete(Id);
-            }
-            catch (Exception ex)
-            {
-                ExceptionsAndLogging.CatchExceptionAndLogging(ex);
-
-            }
+         roleStoreManager.deleteRole(Id);
             
         }
         public List<Role> GetAllRoles(Guid? userId)
         {
-            List<Role> roles = new List<Role>();
-            if (userId != null && userId.HasValue)
-            {
-                Guid id = AutoSmartTechAPI.UserComm.UserComm.NullableGuidAssigToGuid(userId);
-                var UserRoles = _userManager.FindUserRolesByUserId(id);
-                roles = FindUserRolesToRoles(roles, UserRoles);
-            }
-            else
-            {
-                roles = FindAllRole();
-            }
-            return roles;
+            return roleStoreManager.GetAllRoles(userId);
         }
-        private List<Role> FindUserRolesToRoles(List<Role> roles, List<UserRole> UserRoles)
-        {
-            foreach (var userRole in UserRoles)
-            {
-                roles = FindRoleById(userRole.Id);
-            }
-            return roles;
-        }
+       
         public List<RolePermission> FindRolePermissionsByRoleId(int Id)
         {
-            ExceptionsAndLogging.NullExceptionsLogging(Id);
-            try
-            {
-                return _unitOfWork.RolePermissionRepository.GetMany(a => a.RoleId == Id);
-            }
-            catch (Exception ex)
-            {
-                ExceptionsAndLogging.CatchExceptionAndLogging(ex);
-                return null;
-            }
-           
+          return roleStoreManager.FindRolePermissionsByRoleId(Id);
         }
     }
 }

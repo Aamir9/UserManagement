@@ -15,14 +15,13 @@ namespace AutoSmartTechAPI.PasswordManager
     {
         #region Private variables...
         private readonly IUnitOfWork _unitOfWork;
+        private readonly PasswordStoreManager passwordStoreManager;
         private bool disposed;
-        private bool disposedValue;
-        private AutoSmartTechAPI.UserManager.UserManager _userManager;
         #endregion
-        public PasswordManager( AutoSmartTechAPI.UserManager.UserManager userManager)
+        public PasswordManager(IUnitOfWork unitOfWork)
         {   
-            _userManager = userManager;
-            _unitOfWork = new UnitOfWork();
+            _unitOfWork = unitOfWork;
+            passwordStoreManager = new PasswordStoreManager(unitOfWork);
         }
 
         #region Implementing IDiosposable...
@@ -55,57 +54,12 @@ namespace AutoSmartTechAPI.PasswordManager
 
         public async Task<bool> ResetPasswordAsync(Guid userId, string password)
         {
-            ExceptionsAndLogging.NullExceptionsLogging(userId);
-            ExceptionsAndLogging.NullExceptionsLogging(password);
-
-            try
-            {
-                var user = _userManager.FindById(userId);
-                user.Password = password;
-                user.UpdatedOn = DateTime.UtcNow;
-                user.ResetPasswordToken = null;
-
-                using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
-                {
-                    _userManager.Update(user);
-                    await _unitOfWork.SaveChangesAsync();
-                    scope.Complete();
-
-                }
-                return true;
-
-            }
-            catch (Exception ex)
-            {
-                ExceptionsAndLogging.CatchExceptionAndLogging(ex);
-                return false;
-            }
+           return await passwordStoreManager.ResetPasswordAsync(userId, password);
         }
         public async Task<bool> SetTempPasswordAsync(Guid userId, string password)
         {
-            ExceptionsAndLogging.NullExceptionsLogging(userId);
-            ExceptionsAndLogging.NullExceptionsLogging(password);
-            try
-            {
-                var user = _userManager.FindById(userId);
 
-                user.TempPassword = password;
-                user.UpdatedOn = DateTime.UtcNow;
-
-                using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
-                {
-                    _userManager.Update(user);
-                    await _userManager.SaveChangesAsync();
-                    scope.Complete();
-                }
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                ExceptionsAndLogging.CatchExceptionAndLogging(ex);
-                return false;
-            }
+            return await passwordStoreManager.SetTempPasswordAsync(userId, password);
         }
     }
 

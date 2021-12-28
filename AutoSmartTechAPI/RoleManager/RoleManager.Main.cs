@@ -19,15 +19,15 @@ namespace AutoSmartTechAPI.RoleManager
         #region Private variables...
         private readonly IUnitOfWork _unitOfWork;
         private bool disposed;
-        private bool disposedValue;
-        private AutoSmartTechAPI.UserManager.UserManager _userManager;
-      
+        private readonly RoleStoreManager roleStoreManager;
+
         #endregion
-        public RoleManager(AutoSmartTechAPI.UserManager.UserManager userManager)
+        public RoleManager(IUnitOfWork unitOfWork)
         {
-            _userManager = userManager;
-            _unitOfWork = new UnitOfWork();
-            
+            _unitOfWork = unitOfWork;
+            roleStoreManager = new RoleStoreManager(unitOfWork);
+
+
         }
 
         #region Implementing IDiosposable...

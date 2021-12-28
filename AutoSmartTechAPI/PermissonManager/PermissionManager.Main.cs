@@ -16,16 +16,15 @@ namespace AutoSmartTechAPI.PermissonManager
     {
         #region Private variables...
         private readonly IUnitOfWork _unitOfWork;
+        private readonly PermissionStoreManager permissionStoreManager;
         private bool disposed;
-        private bool disposedValue;
-        private AutoSmartTechAPI.UserManager.UserManager _userManager;
-        private AutoSmartTechAPI.RoleManager.RoleManager _roleManager;
+
         #endregion
-        public PermissionManager(AutoSmartTechAPI.UserManager.UserManager userManager, AutoSmartTechAPI.RoleManager.RoleManager roleManager)
+        public PermissionManager(IUnitOfWork unitOfWork)
         {
-            _userManager = userManager;
-            _unitOfWork = new UnitOfWork();
-            _roleManager = roleManager;
+            _unitOfWork = unitOfWork;
+            permissionStoreManager = new PermissionStoreManager(unitOfWork);
+
         }
 
         #region Implementing IDiosposable...

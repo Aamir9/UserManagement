@@ -8,11 +8,14 @@ namespace AutoSmartTechAPI.UserManager
     {
         #region Private variables...
         private readonly IUnitOfWork _unitOfWork;
+        private readonly UserStoreManager userStoreManager;
         private bool disposed;
         #endregion
-        public UserManager()
+        public UserManager(IUnitOfWork unitOfWork)
         {
-            _unitOfWork = new UnitOfWork();
+            _unitOfWork = unitOfWork;
+            userStoreManager = new UserStoreManager(unitOfWork);
+
         }
 
         #region Implementing IDiosposable...

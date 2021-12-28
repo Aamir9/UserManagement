@@ -9,22 +9,21 @@ using System.Transactions;
 
 namespace AutoSmartTechAPI.TokenManager
 {
-    public interface ITokenManger
+    public interface ITokenManager
     {
         Task<bool> UpdateTokenAsync(Guid userId, String resetPasswordToken);
     }
-    public partial class TokenManger : ITokenManger, IDisposable
+    public partial class TokenManger : ITokenManager, IDisposable
     {
         #region Private variables...
         private readonly IUnitOfWork _unitOfWork;
         private bool disposed;
-        private bool disposedValue;
-        private AutoSmartTechAPI.UserManager.UserManager _userManager;
+        private readonly TokenStoreManager tokenStoreManager;
         #endregion
-        public TokenManger(AutoSmartTechAPI.UserManager.UserManager userManager)
+        public TokenManger(IUnitOfWork unitOfWork)
         {
-            _userManager = userManager;
-            _unitOfWork = new UnitOfWork();
+            tokenStoreManager = new TokenStoreManager(unitOfWork);
+            _unitOfWork = unitOfWork;
         }
 
         #region Implementing IDiosposable...
@@ -50,41 +49,13 @@ namespace AutoSmartTechAPI.TokenManager
         {
             Dispose(true);
             GC.SuppressFinalize(this);
-
         }
 
         #endregion
 
         public async Task<bool> UpdateTokenAsync(Guid userId, string resetPasswordToken)
         {
-            ExceptionsAndLogging.NullExceptionsLogging(userId);
-            ExceptionsAndLogging.NullExceptionsLogging(resetPasswordToken);
-            try
-            {
-                var user = _userManager.FindById(userId);
-                if (user == null)
-                    throw new ArgumentException("User Password model does not correspond to a User entity.", "user");
-
-                user.ResetPasswordToken = resetPasswordToken;
-                user.UpdatedOn = DateTime.UtcNow;
-
-                using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
-                {
-                    _userManager.Update(user);
-                    await _userManager.SaveChangesAsync();
-                    scope.Complete();
-                }
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                ExceptionsAndLogging.CatchExceptionAndLogging(ex);
-                return false;
-
-            }
-
-           
+            return await tokenStoreManager.UpdateTokenAsync(userId, resetPasswordToken);
         }
     }
 }

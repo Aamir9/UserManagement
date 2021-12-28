@@ -148,11 +148,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="PasswordManager\PasswordManager.Main.cs" />
+    <Compile Include="PasswordManager\PasswordStoreManager.cs" />
     <Compile Include="PermissonManager\PermissionManager.cs" />
     <Compile Include="PermissonManager\PermissionManager.Main.cs" />
+    <Compile Include="PermissonManager\PermissionStoreManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoleManager\RoleManager.cs" />
     <Compile Include="RoleManager\RoleManager.Main.cs" />
+    <Compile Include="RoleManager\RoleStoreManager.cs" />
     <Compile Include="Services\UserManage\IUserManage.cs" />
     <Compile Include="Services\UserManage\RolePermission.cs" />
     <Compile Include="Services\UserManage\UserEmail.cs" />
@@ -164,12 +167,14 @@
     <Compile Include="Services\UserManage\UserRoles.cs" />
     <Compile Include="Services\UserManage\UserToken.cs" />
     <Compile Include="TokenManager\TokenManager.Main.cs" />
+    <Compile Include="TokenManager\TokenStoreManager.cs" />
     <Compile Include="UserComm\ExceptionsAndLogging.cs" />
     <Compile Include="UserComm\HttpContext.cs" />
     <Compile Include="UserComm\UserComm.cs" />
     <Compile Include="UserManager\IUserManager.cs" />
     <Compile Include="UserManager\UserManager.cs" />
     <Compile Include="UserManager\UserManager.Main.cs" />
+    <Compile Include="UserManager\UserStoreManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

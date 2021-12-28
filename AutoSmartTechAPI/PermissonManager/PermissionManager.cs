@@ -8,78 +8,36 @@ namespace AutoSmartTechAPI.PermissonManager
     {
         public List<Permission> FindAllPermissionById(int Id)
         {
-            return this._unitOfWork.PermissionRepository.GetMany(a => a.Id == Id);
+           return permissionStoreManager.FindAllPermissionById(Id);
         }
         public void insertPermission(Permission entity)
         {
-            _unitOfWork.PermissionRepository.Insert(entity);
+            permissionStoreManager.insertPermission(entity);
         }
 
         public void updatePermission(Permission entity)
         {
-            _unitOfWork.PermissionRepository.Update(entity);
+           permissionStoreManager.deletePermission(entity);
         }
 
         public void deletePermission(object Id)
         {
-            _unitOfWork.PermissionRepository.Delete(Id);
+            permissionStoreManager.deletePermission(Id);
         }
 
         public List<Permission> FindAllPermission()
         {
-            return _unitOfWork.PermissionRepository.FindAll(true);
+           return permissionStoreManager.FindAllPermission();
         }
         public List<Permission> GetAllPermissions(Guid? userId)
         {
-            List<Permission> permissions = new List<Permission>();
-            if (userId != null && userId.HasValue)
-            {
-                Guid id = AutoSmartTechAPI.UserComm.UserComm.NullableGuidAssigToGuid(userId);
-                var roles = _userManager.FindUserRolesByUserId(id);
-                if (roles != null)
-                {
-                    FindRolesToRolesPermissions(permissions, roles);
-                }
-            }
-            else
-            {
-                permissions = FindAllPermission();
-            }
-            return permissions;
+          return permissionStoreManager.GetAllPermissions(userId);
         }
 
         public List<Permission> GetAllPermissionsByRoleId(int roleId)
         {
-            List<Permission> permissions = new List<Permission>();
-            if (roleId > 0)
-            {
-                var roles = _roleManager.FindRolePermissionsByRoleId(roleId);
-                if (roles != null)
-                {
-                    var rolePermissions = _roleManager.FindRolePermissionsByRoleId(roleId);
-                    FindPermissionsListFromRolesPermissions(permissions, rolePermissions);
-                }
-            }
-
-            return permissions;
+         return permissionStoreManager.GetAllPermissionsByRoleId(roleId);
         }
 
-        private void FindRolesToRolesPermissions(List<Permission> permissions, List<UserRole> roles)
-        {
-            foreach (var role in roles)
-            {
-                var rolePermissions = _roleManager.FindRolePermissionsByRoleId(role.Id);
-                FindPermissionsListFromRolesPermissions(permissions, rolePermissions);
-            }
-        }
-
-        private void FindPermissionsListFromRolesPermissions(List<Permission> permissions, List<RolePermission> rolePermissions)
-        {
-            foreach (var rolePermsm in rolePermissions)
-            {
-                var permissionList = FindAllPermissionById(rolePermsm.PermissionId);
-                permissions.AddRange(permissionList);
-            }
-        }
     }
 }
