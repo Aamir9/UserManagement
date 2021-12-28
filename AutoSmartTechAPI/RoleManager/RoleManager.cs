@@ -44,5 +44,10 @@ namespace AutoSmartTechAPI.RoleManager
         {
           return roleStoreManager.FindRolePermissionsByRoleId(Id);
         }
+
+        public bool CreateOrUpdateUserRole(UserRole userRole)
+        {
+            return roleStoreManager.CreateOrUpdateUserRole(userRole);
+        }
     }
 }

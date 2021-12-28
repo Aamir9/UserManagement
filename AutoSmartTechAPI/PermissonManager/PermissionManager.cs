@@ -1,6 +1,7 @@
 ﻿using DataAccessLayer.DataEntities;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AutoSmartTechAPI.PermissonManager
 {
@@ -37,6 +38,10 @@ namespace AutoSmartTechAPI.PermissonManager
         public List<Permission> GetAllPermissionsByRoleId(int roleId)
         {
          return permissionStoreManager.GetAllPermissionsByRoleId(roleId);
+        }
+        public bool CreateOrUpdateRolePermisson(RolePermission rolePermission)
+        {
+            return permissionStoreManager.CreateOrUpdateRolePermisson(rolePermission);
         }
 
     }

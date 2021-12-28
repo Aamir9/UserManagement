@@ -11,6 +11,7 @@ namespace AutoSmartTechAPI.PermissonManager
         List<Permission> FindAllPermissionById(int Id);
         List<Permission> GetAllPermissionsByRoleId(int roleId);
         List<Permission> FindAllPermission();
+        bool CreateOrUpdateRolePermisson(RolePermission rolePermission);
     }
     public partial class PermissionManager : IPermissionManager, IDisposable
     {

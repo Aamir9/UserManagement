@@ -10,6 +10,7 @@ namespace AutoSmartTechAPI.UserComm
             if (message == null )
             {
                 Console.WriteLine(message + " is null");
+                throw  new  ArgumentNullException(nameof(message));
             }
             return exception;
         }
@@ -17,6 +18,7 @@ namespace AutoSmartTechAPI.UserComm
         public static void CatchExceptionAndLogging(Exception ex)
         {
             Console.WriteLine(ex.ToString());
+            throw ex;
             
         }
     }
