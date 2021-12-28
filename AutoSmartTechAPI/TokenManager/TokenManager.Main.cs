@@ -1,11 +1,6 @@
-﻿using AutoSmartTechAPI.UserComm;
-using DataAccessLayer.Services;
+﻿using DataAccessLayer.Services;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Transactions;
 
 namespace AutoSmartTechAPI.TokenManager
 {
@@ -13,14 +8,14 @@ namespace AutoSmartTechAPI.TokenManager
     {
         Task<bool> UpdateTokenAsync(Guid userId, String resetPasswordToken);
     }
-    public partial class TokenManger : ITokenManager, IDisposable
+    public partial class TokenManager : ITokenManager, IDisposable
     {
         #region Private variables...
         private readonly IUnitOfWork _unitOfWork;
         private bool disposed;
         private readonly TokenStoreManager tokenStoreManager;
         #endregion
-        public TokenManger(IUnitOfWork unitOfWork)
+        public TokenManager(IUnitOfWork unitOfWork)
         {
             tokenStoreManager = new TokenStoreManager(unitOfWork);
             _unitOfWork = unitOfWork;
