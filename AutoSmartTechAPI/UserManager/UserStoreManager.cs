@@ -186,5 +186,31 @@ namespace AutoSmartTechAPI.UserManager
 
 
         }
+
+        public bool CreateOrUpdateUserRole(UserRole userRole)
+        {
+            ExceptionsAndLogging.NullExceptionsLogging(userRole);
+            try
+            {
+                var date = _unitOfWork.UserRoleRepository.GetFirstOrDefault(x => x.RoleId == userRole.RoleId && x.UserId == userRole.UserId);
+                if (date != null)
+                {
+                    _unitOfWork.UserRoleRepository.Update(date);
+                }
+                else
+                {
+                    _unitOfWork.UserRoleRepository.Insert(userRole);
+
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                ExceptionsAndLogging.CatchExceptionAndLogging(ex);
+                return false;
+
+            }
+
+        }
     }
 }

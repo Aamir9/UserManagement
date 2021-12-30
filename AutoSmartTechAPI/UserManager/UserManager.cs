@@ -61,6 +61,10 @@ namespace AutoSmartTechAPI.UserManager
         {
             return userStoreManager.FindEmailById(userId); 
         }
+        public bool CreateOrUpdateUserRole(UserRole userRole)
+        {
+            return userStoreManager.CreateOrUpdateUserRole(userRole);
+        }
 
     }
 }

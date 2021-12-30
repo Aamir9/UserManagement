@@ -19,6 +19,7 @@ namespace AutoSmartTechAPI.UserManager
         void Delete(object Id);
         void DeleteUnSelectedObjects(User dbUser, IList<int> userEthnicityIds, IList<int> userRaceIdsk);
         string FindEmailById(Guid userId);
+        bool CreateOrUpdateUserRole(UserRole userRole);
 
     }
 }
