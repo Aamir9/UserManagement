@@ -1,5 +1,4 @@
-﻿using AutoSmartTechAPI.UserComm;
-using DataAccessLayer.DataEntities;
+﻿using DataAccessLayer.DataEntities;
 using System;
 using System.Collections.Generic;
 
@@ -21,18 +20,18 @@ namespace AutoSmartTechAPI.RoleManager
         {
            return roleStoreManager.FindRoleByRoleName(roleName);
         }
-        public void insertRole(Role entity)
+        public bool insertRole(Role entity)
         {
-          roleStoreManager.insertRole(entity);
+          return roleStoreManager.insertRole(entity);
            
         }
-        public void updateRole(Role entity)
+        public bool updateRole(Role entity)
         {
-           roleStoreManager.updateRole(entity);
+          return roleStoreManager.updateRole(entity);
         }
-        public void deleteRole(object Id)
+        public bool deleteRole(object Id)
         {
-         roleStoreManager.deleteRole(Id);
+         return roleStoreManager.deleteRole(Id);
             
         }
         public List<Role> GetAllRoles(Guid? userId)
@@ -48,6 +47,11 @@ namespace AutoSmartTechAPI.RoleManager
         public bool CreateOrUpdateUserRole(UserRole userRole)
         {
             return roleStoreManager.CreateOrUpdateUserRole(userRole);
+        }
+
+        public bool DeleteAllUserRoleByUserId(UserRole userRole)
+        {
+            return roleStoreManager.DeleteAllUserRoleByUserId(userRole);
         }
     }
 }

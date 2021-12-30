@@ -43,6 +43,9 @@ namespace AutoSmartTechAPI.PermissonManager
         {
             return permissionStoreManager.CreateOrUpdateRolePermisson(rolePermission);
         }
-
+        public  bool DeleteAllRolePermissonByRoleId(RolePermission rolePermission)
+        {
+            return  permissionStoreManager.DeleteAllRolePermissonByRoleId(rolePermission);
+        }
     }
 }

@@ -85,44 +85,62 @@ namespace AutoSmartTechAPI.RoleManager
                 return null;
             }
         }
-        public void insertRole(Role entity)
+        public bool insertRole(Role entity)
         {
             ExceptionsAndLogging.NullExceptionsLogging(entity);
             try
             {
-                _unitOfWork.RoleRepository.Insert(entity);
+                var data = _unitOfWork.RoleRepository.GetFirstOrDefault( x =>x.Name == entity.Name );
+                if(data == null)
+                {
+                    _unitOfWork.RoleRepository.Insert(entity);
+                    _unitOfWork.Save();
+                    return true;
+                }
+                else
+                {
+                  return updateRole(entity);
+                }
+                
             }
             catch (Exception ex)
             {
                 ExceptionsAndLogging.CatchExceptionAndLogging(ex);
+                return false;
 
             }
 
         }
-        public void updateRole(Role entity)
+        public bool updateRole(Role entity)
         {
             ExceptionsAndLogging.NullExceptionsLogging(entity);
             try
             {
                 _unitOfWork.RoleRepository.Update(entity);
+                _unitOfWork.Save();
+                return true;
             }
             catch (Exception ex)
             {
                 ExceptionsAndLogging.CatchExceptionAndLogging(ex);
+                return false;
 
             }
 
         }
-        public void deleteRole(object Id)
+        public bool deleteRole(object Id)
         {
             ExceptionsAndLogging.NullExceptionsLogging(Id);
             try
             {
                 _unitOfWork.RoleRepository.Delete(Id);
+                _unitOfWork.Save();
+                return true;
             }
             catch (Exception ex)
             {
                 ExceptionsAndLogging.CatchExceptionAndLogging(ex);
+                return false ;
 
             }
 
@@ -142,19 +160,39 @@ namespace AutoSmartTechAPI.RoleManager
             }
 
         }
+
+        public bool DeleteAllUserRoleByUserId(UserRole userRole)
+        {
+            try
+            {
+                var userRoleList = _unitOfWork.UserRoleRepository.FindAll(x => x.UserId == userRole.UserId);
+                _unitOfWork.UserRoleRepository.DeleteObjects(userRoleList);
+                _unitOfWork.Save();
+            }
+            catch (Exception ex)
+            {
+
+                ExceptionsAndLogging.CatchExceptionAndLogging(ex);
+            }
+            return true;
+        }
+
         public bool CreateOrUpdateUserRole(UserRole userRole)
         {
             ExceptionsAndLogging.NullExceptionsLogging(userRole);
             try
             {
-                var date = _unitOfWork.UserRoleRepository.GetFirstOrDefault(x => x.UserId == userRole.UserId && x.RoleId == userRole.RoleId);
+
+                var date = _unitOfWork.UserRoleRepository.GetFirstOrDefault(x => x.RoleId == userRole.RoleId && x.UserId == userRole.UserId);
                 if (date != null)
                 {
                     _unitOfWork.UserRoleRepository.Update(date);
+                    _unitOfWork.Save();
                 }
                 else
                 {
                     _unitOfWork.UserRoleRepository.Insert(userRole);
+                    _unitOfWork.Save();
 
                 }
                 return true;
@@ -167,5 +205,7 @@ namespace AutoSmartTechAPI.RoleManager
             }
 
         }
+
+
     }
 }

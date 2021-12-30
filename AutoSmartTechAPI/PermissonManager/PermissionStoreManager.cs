@@ -5,6 +5,7 @@ using DataAccessLayer.DataEntities;
 using DataAccessLayer.Services;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AutoSmartTechAPI.PermissonManager
 {
@@ -101,7 +102,7 @@ namespace AutoSmartTechAPI.PermissonManager
         }
         public List<Permission> GetAllPermissions(Guid? userId)
         {
-            ExceptionsAndLogging.NullExceptionsLogging(userId);
+            
             List<Permission> permissions = new List<Permission>();
             try
             {
@@ -153,21 +154,39 @@ namespace AutoSmartTechAPI.PermissonManager
             return permissions;
         
         }
+        public bool  DeleteAllRolePermissonByRoleId(RolePermission rolePermission)
+        {
+            try
+            {
+             var rolePermissons =    _unitOfWork.RolePermissionRepository.FindAll( x => x.RoleId == rolePermission.RoleId );
+             _unitOfWork.RolePermissionRepository.DeleteObjects( rolePermissons );
+                _unitOfWork.Save();
+            }
+             catch (Exception ex)
+            {
+
+                ExceptionsAndLogging.CatchExceptionAndLogging(ex);
+            }
+            return true;
+        }
 
         public bool CreateOrUpdateRolePermisson(RolePermission rolePermission)
         {
             ExceptionsAndLogging.NullExceptionsLogging(rolePermission);
             try
             {
+                              
                 var date = _unitOfWork.RolePermissionRepository.GetFirstOrDefault(x => x.RoleId == rolePermission.RoleId && x.PermissionId == rolePermission.PermissionId);
                 if (date != null)
                 {
                     _unitOfWork.RolePermissionRepository.Update(date);
+                    _unitOfWork.Save();
                 }
                 else
                 {
                     _unitOfWork.RolePermissionRepository.Insert(rolePermission);
-                   
+                    _unitOfWork.Save();
+
                 }
                 return true;
             }
@@ -179,6 +198,7 @@ namespace AutoSmartTechAPI.PermissonManager
             }
          
         }
+
         private void FindPermissionsListFromRolesPermissions(List<Permission> permissions, List<RolePermission> rolePermissions)
         {
             ExceptionsAndLogging.NullExceptionsLogging(permissions);

@@ -12,6 +12,10 @@ namespace AutoSmartTechAPI.RoleManager
         Role FindRoleByRoleName(string roleName);
         List<Role> FindAllRole();
         List<RolePermission> FindRolePermissionsByRoleId(int Id);
+        bool DeleteAllUserRoleByUserId(UserRole userRole);
+        bool insertRole(Role entity);
+        bool updateRole(Role entity);
+        bool deleteRole(object Id);
     }
 
     public partial class RoleManager : IRoleManager, IDisposable
