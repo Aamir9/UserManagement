@@ -219,15 +219,15 @@ namespace AutoSmartTechAPI.PermissonManager
             
         }
 
-        private void FindRolesToRolesPermissions(List<Permission> permissions, List<UserRole> roles)
+        private void FindRolesToRolesPermissions(List<Permission> permissions, List<UserRole> userRoles)
         {
             ExceptionsAndLogging.NullExceptionsLogging(permissions);
-            ExceptionsAndLogging.NullExceptionsLogging(roles);
+            ExceptionsAndLogging.NullExceptionsLogging(userRoles);
             try
             {
-                foreach (var role in roles)
+                foreach (var userRole in userRoles)
                 {
-                    var rolePermissions = roleStoreManager.FindRolePermissionsByRoleId(role.Id);
+                    var rolePermissions = roleStoreManager.FindRolePermissionsByRoleId(userRole.RoleId);
                     FindPermissionsListFromRolesPermissions(permissions, rolePermissions);
                 }
             }

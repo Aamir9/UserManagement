@@ -21,20 +21,22 @@ namespace AutoSmartTechAPI.RoleManager
             _userStoreManager = new AutoSmartTechAPI.UserManager.UserStoreManager(unitOfWork);
             _unitOfWork = unitOfWork;
         }
-        public List<Role> FindUserRolesToRoles(List<Role> roles, List<UserRole> UserRoles)
+        public List<Role> FindUserRolesToRoles( List<UserRole> UserRoles)
         {
+            List<Role> roleList = new List<Role>();
             foreach (var userRole in UserRoles)
             {
-                roles = FindRoleById(userRole.Id);
+                var newRole = FindRoleById(userRole.RoleId);
+                roleList.Add(newRole);
             }
-            return roles;
+            return roleList;
         }
-        public List<Role> FindRoleById(int roleId)
+        public Role FindRoleById(int roleId)
         {
             ExceptionsAndLogging.NullExceptionsLogging(roleId);
             try
             {
-                return this._unitOfWork.RoleRepository.GetMany(a => a.Id == roleId);
+                return this._unitOfWork.RoleRepository.FindById(roleId);
             }
             catch (Exception ex)
             {
@@ -50,7 +52,7 @@ namespace AutoSmartTechAPI.RoleManager
             {
                 Guid id = AutoSmartTechAPI.UserComm.UserComm.NullableGuidAssigToGuid(userId);
                 var UserRoles = _userStoreManager.FindUserRolesByUserId(id);
-                roles = FindUserRolesToRoles(roles, UserRoles);
+                roles = FindUserRolesToRoles(UserRoles);
             }
             else
             {
@@ -182,7 +184,6 @@ namespace AutoSmartTechAPI.RoleManager
             ExceptionsAndLogging.NullExceptionsLogging(userRole);
             try
             {
-
                 var date = _unitOfWork.UserRoleRepository.GetFirstOrDefault(x => x.RoleId == userRole.RoleId && x.UserId == userRole.UserId);
                 if (date != null)
                 {

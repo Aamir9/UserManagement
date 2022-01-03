@@ -8,7 +8,7 @@ namespace AutoSmartTechAPI.RoleManager
     public interface IRoleManager
     {
         List<Role> GetAllRoles(Guid? userId);
-        List<Role> FindRoleById(int roleId);
+        Role FindRoleById(int roleId);
         Role FindRoleByRoleName(string roleName);
         List<Role> FindAllRole();
         List<RolePermission> FindRolePermissionsByRoleId(int Id);

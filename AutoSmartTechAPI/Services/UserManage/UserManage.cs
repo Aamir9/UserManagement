@@ -75,8 +75,9 @@ namespace AutoSmartTechAPI.Services.UserManager
             return userId.HasValue ? userId.Value : Guid.Empty;
         }
 
-        private List<Role> FindUserRolesToRoles(List<Role> roles, List<UserRole> UserRoles)
+        private List<Role> FindUserRolesToRoles(List<UserRole> UserRoles)
         {
+            List<Role> roles = new List<Role>();
             foreach (var userRole in UserRoles)
             {
                 roles = FindRoleById(userRole.Id);

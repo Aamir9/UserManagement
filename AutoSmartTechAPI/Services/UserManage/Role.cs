@@ -14,9 +14,9 @@ namespace AutoSmartTechAPI.Services.UserManager
         }
   
 
-        public  List<Role> FindRoleById(int roleId)
+        public  Role FindRoleById(int roleId)
         {
-            return  this._unitOfWork.RoleRepository.GetMany( a=> a.Id  == roleId);
+            return  this._unitOfWork.RoleRepository.GetFirstOrDefault( a=> a.Id  == roleId);
         }
 
         public Role FindRoleByRoleName(string roleName)
@@ -46,7 +46,7 @@ namespace AutoSmartTechAPI.Services.UserManager
             {
                 Guid id = NullableGuidAssigToGuid(userId);
                 var UserRoles = FindUserRolesByUserId(id);
-                roles = FindUserRolesToRoles(roles, UserRoles);
+                roles = FindUserRolesToRoles(UserRoles);
             }
             else
             {

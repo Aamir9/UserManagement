@@ -11,7 +11,7 @@ namespace AutoSmartTechAPI.RoleManager
            return roleStoreManager.FindAllRole();
             
         }
-        public List<Role> FindRoleById(int roleId)
+        public Role FindRoleById(int roleId)
         {
           return  roleStoreManager.FindRoleById(roleId);
            

@@ -156,16 +156,6 @@
     <Compile Include="RoleManager\RoleManager.cs" />
     <Compile Include="RoleManager\RoleManager.Main.cs" />
     <Compile Include="RoleManager\RoleStoreManager.cs" />
-    <Compile Include="Services\UserManage\IUserManage.cs" />
-    <Compile Include="Services\UserManage\RolePermission.cs" />
-    <Compile Include="Services\UserManage\UserEmail.cs" />
-    <Compile Include="Services\UserManage\UserManage.cs" />
-    <Compile Include="Services\UserManage\UserManagerMain.cs" />
-    <Compile Include="Services\UserManage\UserPassword.cs" />
-    <Compile Include="Services\UserManage\Permission.cs" />
-    <Compile Include="Services\UserManage\Role.cs" />
-    <Compile Include="Services\UserManage\UserRoles.cs" />
-    <Compile Include="Services\UserManage\UserToken.cs" />
     <Compile Include="TokenManager\TokenManager.Main.cs" />
     <Compile Include="TokenManager\TokenStoreManager.cs" />
     <Compile Include="UserComm\ExceptionsAndLogging.cs" />
