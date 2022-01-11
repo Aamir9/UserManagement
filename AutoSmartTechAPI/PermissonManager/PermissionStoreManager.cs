@@ -14,13 +14,13 @@ namespace AutoSmartTechAPI.PermissonManager
         #region Private variables...
         private readonly IUnitOfWork _unitOfWork;
         private readonly RoleStoreManager roleStoreManager;
-        private readonly UserStoreManager userStoreManager;
+        private readonly AppUserStoreManager userStoreManager;
         #endregion
         public PermissionStoreManager(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
             roleStoreManager = new RoleStoreManager(unitOfWork);
-            userStoreManager = new UserStoreManager(unitOfWork);
+            userStoreManager = new AppUserStoreManager(unitOfWork);
 
         }
 

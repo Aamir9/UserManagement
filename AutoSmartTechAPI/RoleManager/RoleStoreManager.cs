@@ -12,13 +12,13 @@ namespace AutoSmartTechAPI.RoleManager
     {
         #region Private variables...
         private readonly IUnitOfWork _unitOfWork;
-        private AutoSmartTechAPI.UserManager.UserStoreManager _userStoreManager;
+        private AutoSmartTechAPI.UserManager.AppUserStoreManager _userStoreManager;
 
         #endregion
 
         public RoleStoreManager(IUnitOfWork unitOfWork)
         {
-            _userStoreManager = new AutoSmartTechAPI.UserManager.UserStoreManager(unitOfWork);
+            _userStoreManager = new AutoSmartTechAPI.UserManager.AppUserStoreManager(unitOfWork);
             _unitOfWork = unitOfWork;
         }
         public List<Role> FindUserRolesToRoles( List<UserRole> UserRoles)

@@ -1,21 +1,24 @@
-﻿using AutoSmartTechAPI.UserComm;
+﻿using AutoSmartTechAPI.Models;
+using AutoSmartTechAPI.UserComm;
 using DataAccessLayer.DataEntities;
 using DataAccessLayer.Services;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace AutoSmartTechAPI.UserManager
 {
-    internal class UserStoreManager
+    public class AppUserStoreManager : IUserStore<ApplicationUser, Guid>,
+         IUserPasswordStore<ApplicationUser, Guid>,
+       IUserEmailStore<ApplicationUser, Guid>
     {
         #region Private variables...
         private readonly IUnitOfWork _unitOfWork;
         #endregion
 
-      public  UserStoreManager(IUnitOfWork unitOfWork)
+        public AppUserStoreManager(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
@@ -33,20 +36,20 @@ namespace AutoSmartTechAPI.UserManager
             }
 
         }
-        public async Task<User> FindByIdAsync(Guid Id)
-        {
-            ExceptionsAndLogging.NullExceptionsLogging(Id);
-            try
-            {
-                return await  this._unitOfWork.UserRepository.FindByIdAsync(Id);
-            }
-            catch (Exception ex)
-            {
-                ExceptionsAndLogging.CatchExceptionAndLogging(ex);
-                return null;
-            }
+        //public async Task<User> FindByIdAsync(Guid Id)
+        //{
+        //    ExceptionsAndLogging.NullExceptionsLogging(Id);
+        //    try
+        //    {
+        //        return await  this._unitOfWork.UserRepository.FindByIdAsync(Id);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ExceptionsAndLogging.CatchExceptionAndLogging(ex);
+        //        return null;
+        //    }
 
-        }
+        //}
         public User FindById(Guid Id)
         {
             ExceptionsAndLogging.NullExceptionsLogging(Id);
@@ -212,5 +215,109 @@ namespace AutoSmartTechAPI.UserManager
             }
 
         }
+
+        public async Task CreateAsync(ApplicationUser user)
+        {
+            await Task.Run(() => Insert(user));
+        }
+
+        public async Task UpdateAsync(ApplicationUser user)
+        {
+            await Task.Run(() => Update(user));
+
+        }
+
+        public async Task DeleteAsync(ApplicationUser user)
+        {
+            await Task.Run(() => Delete(user));
+        }
+        public void Dispose()
+        {
+            _unitOfWork.Dispose();
+        }
+
+        public Task SetPasswordHashAsync(ApplicationUser user, string passwordHash)
+        {
+            user.Password = passwordHash;
+            return Task.FromResult(0);
+        }
+
+        public Task<string> GetPasswordHashAsync(ApplicationUser user)
+        {
+            return Task.FromResult<string>(user.Password);
+        }
+
+        public Task<bool> HasPasswordAsync(ApplicationUser user)
+        {
+            if (user == null)
+                throw new ArgumentNullException("user");
+            return Task.FromResult<bool>(!string.IsNullOrWhiteSpace(user.Password));
+        }
+
+        public Task SetEmailAsync(ApplicationUser user, string email)
+        {
+            user.UserName = email;
+            return Task.FromResult(0);
+        }
+
+        public Task<string> GetEmailAsync(ApplicationUser user)
+        {
+            return Task.FromResult(user.UserName);
+        }
+
+        public Task<bool> GetEmailConfirmedAsync(ApplicationUser user)
+        {
+            return Task.FromResult(user.EmailConfirmed);
+        }
+
+        public Task SetEmailConfirmedAsync(ApplicationUser user, bool confirmed)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<ApplicationUser> FindByEmailAsync(string email)
+        {
+           var user = await _unitOfWork.UserRepository.GetFirstOrDefaultAsync(x => x.EmailAddress == email);
+            ApplicationUser applicationUser = null;
+            if (user != null)
+            {
+                var data = user.MapProperties<ApplicationUser>();
+                applicationUser =  ApplicationUser.MapUserToApplicationUser(user);
+               
+            }
+            return applicationUser;
+        }
+
+
+        async Task<ApplicationUser> IUserStore<ApplicationUser, Guid>.FindByIdAsync(Guid userId)
+        {
+            ExceptionsAndLogging.NullExceptionsLogging(userId);
+            try
+            {
+                return (ApplicationUser)await this._unitOfWork.UserRepository.FindByIdAsync(userId);
+            }
+            catch (Exception ex)
+            {
+                ExceptionsAndLogging.CatchExceptionAndLogging(ex);
+                return null;
+            }
+
+        }
+
+
+        
+        async Task<ApplicationUser> IUserStore<ApplicationUser, Guid>.FindByNameAsync(string userName)
+        {
+            var user = await _unitOfWork.UserRepository.GetFirstOrDefaultAsync(x => x.EmailAddress == userName);
+            ApplicationUser applicationUser = null;
+            if (user != null)
+            {
+                applicationUser = ApplicationUser.MapUserToApplicationUser(user);
+
+            }
+            return applicationUser;
+        }
+
+      
     }
 }
