@@ -11,11 +11,11 @@ namespace AutoSmartTechAPI.TokenManager
     {
         #region Private variables...
         private readonly IUnitOfWork _unitOfWork;
-        private readonly UserStoreManager userStoreManager;
+        private readonly AppUserStoreManager userStoreManager;
         #endregion
         public TokenStoreManager(IUnitOfWork unitOfWork)
         {
-            userStoreManager = new UserStoreManager(unitOfWork);
+            userStoreManager = new AppUserStoreManager(unitOfWork);
             _unitOfWork = unitOfWork;
         }
 
