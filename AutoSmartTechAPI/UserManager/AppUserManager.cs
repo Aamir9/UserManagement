@@ -13,7 +13,8 @@ namespace AutoSmartTechAPI
     {
         public void DataProtectorTokenProviderFromApp(IDataProtectionProvider dataProtectionProvider)
         {
-            this.UserTokenProvider = new DataProtectorTokenProvider<ApplicationUser, Guid>(dataProtectionProvider.Create("ResetPassword"));
+             this.UserTokenProvider = new DataProtectorTokenProvider<ApplicationUser, Guid>(dataProtectionProvider.Create("ResetPassword"));
+          
         }
 
         private void AppUserSettings()
@@ -57,7 +58,7 @@ namespace AutoSmartTechAPI
             return _userStoreManager.FindById(Id);
 
         }
-        public void Update(User user)
+        public  void Update(User user)
         {
             _userStoreManager.Update(user);
 
@@ -68,8 +69,8 @@ namespace AutoSmartTechAPI
         }
         public void Insert(User entity)
         {
-             _userStoreManager.Insert(entity);
-            
+            _userStoreManager.Insert(entity);
+
         }
         public int Save()
         {

@@ -64,16 +64,19 @@ namespace AutoSmartTechAPI.UserManager
             }
 
         }
-        public void Update(User user)
+        public bool Update(User user)
         {
             ExceptionsAndLogging.NullExceptionsLogging(user.Id);
             try
             {
                 _unitOfWork.UserRepository.Update(user);
+                return true;
+               // Save();
             }
             catch (Exception ex)
             {
                 ExceptionsAndLogging.CatchExceptionAndLogging(ex);
+                return false;
 
             }
 
@@ -82,16 +85,20 @@ namespace AutoSmartTechAPI.UserManager
         {
             return _unitOfWork.SaveChangesAsync();
         }
-        public void Insert(User entity)
+        public int Insert(User entity)
         {
             ExceptionsAndLogging.NullExceptionsLogging(entity.Id);
             try
             {
                 _unitOfWork.UserRepository.Insert(entity);
+                
+                
+               return 1;
             }
             catch (Exception ex)
             {
                 ExceptionsAndLogging.CatchExceptionAndLogging(ex);
+                return 0;
 
             }
 
@@ -216,19 +223,25 @@ namespace AutoSmartTechAPI.UserManager
 
         }
 
-        public async Task CreateAsync(ApplicationUser user)
+        public async Task CreateAsync(ApplicationUser appUser)
         {
-            await Task.Run(() => Insert(user));
+            appUser.Id = Guid.NewGuid();
+            var user  = ApplicationUser.MapApplicationUserToUser(appUser);
+            _unitOfWork.UserRepository.Insert(user);
+            await _unitOfWork.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(ApplicationUser user)
+        public async Task UpdateAsync(ApplicationUser appUser)
         {
-            await Task.Run(() => Update(user));
+            var user = ApplicationUser.MapApplicationUserToUser(appUser);
+            Update(user);
+            await _unitOfWork.SaveChangesAsync();
 
         }
 
-        public async Task DeleteAsync(ApplicationUser user)
+        public async Task DeleteAsync(ApplicationUser appUser)
         {
+            var user = ApplicationUser.MapApplicationUserToUser(appUser);
             await Task.Run(() => Delete(user));
         }
         public void Dispose()
@@ -294,7 +307,8 @@ namespace AutoSmartTechAPI.UserManager
             ExceptionsAndLogging.NullExceptionsLogging(userId);
             try
             {
-                return (ApplicationUser)await this._unitOfWork.UserRepository.FindByIdAsync(userId);
+                var data = await this._unitOfWork.UserRepository.FindByIdAsync(userId);
+                return ApplicationUser.MapUserToApplicationUser(data);
             }
             catch (Exception ex)
             {

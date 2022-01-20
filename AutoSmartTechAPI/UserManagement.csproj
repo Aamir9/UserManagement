@@ -39,7 +39,7 @@
   <ItemGroup>
     <Reference Include="Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
     <Reference Include="DataAccessLayer">
-      <HintPath>..\..\UWL\Dev\DataAccess\bin\Debug\DataAccessLayer.dll</HintPath>
+      <HintPath>..\..\..\UWL DIV Git\Dev\DataAccess\bin\Debug\DataAccessLayer.dll</HintPath>
     </Reference>
     <Reference Include="Lokad.ILPack, Version=0.1.7.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Lokad.ILPack.0.1.7\lib\net46\Lokad.ILPack.dll</HintPath>
