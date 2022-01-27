@@ -180,10 +180,10 @@
     <Compile Include="RoleManager\RoleStoreManager.cs" />
     <Compile Include="TokenManager\TokenManager.Main.cs" />
     <Compile Include="TokenManager\TokenStoreManager.cs" />
+    <Compile Include="UserComm\DynamicMapping.cs" />
     <Compile Include="UserComm\ExceptionsAndLogging.cs" />
     <Compile Include="UserComm\Extensions.cs" />
     <Compile Include="UserComm\HttpContext.cs" />
-    <Compile Include="UserComm\SortExpression.cs" />
     <Compile Include="UserComm\UserComm.cs" />
     <Compile Include="UserManager\IUserManager.cs" />
     <Compile Include="UserManager\AppUserManager.cs" />
