@@ -34,7 +34,14 @@ namespace AutoSmartTechAPI.PermissonManager
         {
           return permissionStoreManager.GetAllPermissions(userId);
         }
-
+        public List<Permission> GetAllAdminPermissions()
+        {
+            return permissionStoreManager.GetAllAdminPermissions();
+        }
+        public List<Permission> GetAllClientPermissions()
+        {
+            return permissionStoreManager.GetAllClientPermissions();
+        }
         public List<Permission> GetAllPermissionsByRoleId(int roleId)
         {
          return permissionStoreManager.GetAllPermissionsByRoleId(roleId);

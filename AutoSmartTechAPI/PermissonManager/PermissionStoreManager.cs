@@ -100,6 +100,36 @@ namespace AutoSmartTechAPI.PermissonManager
             }
            
         }
+        public List<Permission> GetAllAdminPermissions()
+        {
+
+            try
+            {
+                return _unitOfWork.PermissionRepository.FindAll(x => x.Name.StartsWith("Admin"));
+            }
+            catch (Exception ex)
+            {
+                ExceptionsAndLogging.CatchExceptionAndLogging(ex);
+                return null;
+
+            }
+
+        }
+        public List<Permission> GetAllClientPermissions()
+        {
+
+            try
+            {
+                return _unitOfWork.PermissionRepository.FindAll(x => x.Name.StartsWith("Client"));
+            }
+            catch (Exception ex)
+            {
+                ExceptionsAndLogging.CatchExceptionAndLogging(ex);
+                return null;
+
+            }
+
+        }
         public List<Permission> GetAllPermissions(Guid? userId)
         {
             

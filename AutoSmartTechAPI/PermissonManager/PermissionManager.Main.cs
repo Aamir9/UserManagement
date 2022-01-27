@@ -9,6 +9,8 @@ namespace AutoSmartTechAPI.PermissonManager
     public interface IPermissionManager
     {
         List<Permission> GetAllPermissions(Guid? userId);
+        List<Permission> GetAllAdminPermissions();
+        List<Permission> GetAllClientPermissions();
         List<Permission> FindAllPermissionById(int Id);
         List<Permission> GetAllPermissionsByRoleId(int roleId);
         List<Permission> FindAllPermission();
