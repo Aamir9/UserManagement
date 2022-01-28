@@ -22,7 +22,7 @@ namespace AutoSmartTechAPI
                     {
                         try
                         {
-                            destinationProperty.SetValue(destination, sourceProperty.GetValue(source, null), null);
+                                destinationProperty.SetValue(destination, sourceProperty.GetValue(source, null), null);
                         }
                         catch (Exception ex)
                         {
@@ -33,12 +33,11 @@ namespace AutoSmartTechAPI
             }
         }
 
-        public static TDestination MapProperties<TDestination>(this object source)
+        public static TDestination MapSameProperties<TDestination>(this object source)
          where TDestination : class, new()
         {
             var destination = Activator.CreateInstance<TDestination>();
             MatchAndMap(source, destination);
-
             return destination;
         }
     }

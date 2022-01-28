@@ -10,7 +10,8 @@ using System.Threading.Tasks;
 
 namespace AutoSmartTechAPI.UserManager
 {
-    public class AppUserStoreManager : IUserStore<ApplicationUser, Guid>,
+
+    public class AppUserStoreManager  : IUserStore<ApplicationUser, Guid>,
          IUserPasswordStore<ApplicationUser, Guid>,
        IUserEmailStore<ApplicationUser, Guid>
     {
@@ -69,9 +70,11 @@ namespace AutoSmartTechAPI.UserManager
             ExceptionsAndLogging.NullExceptionsLogging(user.Id);
             try
             {
+
                 _unitOfWork.UserRepository.Update(user);
                 return true;
-               // Save();
+
+
             }
             catch (Exception ex)
             {
@@ -91,9 +94,8 @@ namespace AutoSmartTechAPI.UserManager
             try
             {
                 _unitOfWork.UserRepository.Insert(entity);
-                
-                
-               return 1;
+
+                return 1;
             }
             catch (Exception ex)
             {
@@ -205,12 +207,13 @@ namespace AutoSmartTechAPI.UserManager
                 var date = _unitOfWork.UserRoleRepository.GetFirstOrDefault(x => x.RoleId == userRole.RoleId && x.UserId == userRole.UserId);
                 if (date != null)
                 {
+
                     _unitOfWork.UserRoleRepository.Update(date);
+
                 }
                 else
                 {
                     _unitOfWork.UserRoleRepository.Insert(userRole);
-
                 }
                 return true;
             }
@@ -225,15 +228,15 @@ namespace AutoSmartTechAPI.UserManager
 
         public async Task CreateAsync(ApplicationUser appUser)
         {
-            appUser.Id = Guid.NewGuid();
-            var user  = ApplicationUser.MapApplicationUserToUser(appUser);
+            User user = appUser.MapSameProperties<User>();
             _unitOfWork.UserRepository.Insert(user);
+
             await _unitOfWork.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(ApplicationUser appUser)
         {
-            var user = ApplicationUser.MapApplicationUserToUser(appUser);
+            User user = appUser.MapSameProperties<User>();
             Update(user);
             await _unitOfWork.SaveChangesAsync();
 
@@ -241,7 +244,7 @@ namespace AutoSmartTechAPI.UserManager
 
         public async Task DeleteAsync(ApplicationUser appUser)
         {
-            var user = ApplicationUser.MapApplicationUserToUser(appUser);
+            User user = appUser.MapSameProperties<User>();
             await Task.Run(() => Delete(user));
         }
         public void Dispose()
@@ -290,13 +293,14 @@ namespace AutoSmartTechAPI.UserManager
 
         public async Task<ApplicationUser> FindByEmailAsync(string email)
         {
-           var user = await _unitOfWork.UserRepository.GetFirstOrDefaultAsync(x => x.EmailAddress == email);
+            var user = await _unitOfWork.UserRepository.GetFirstOrDefaultAsync(x => x.EmailAddress == email);
             ApplicationUser applicationUser = null;
-            if (user != null)
+            if ( user!= null)
             {
-                var data = user.MapProperties<ApplicationUser>();
-                applicationUser =  ApplicationUser.MapUserToApplicationUser(user);
-               
+                //var data = user.MapSameProperties<ApplicationUser>();
+                //applicationUser = ApplicationUser.MapUserToApplicationUser(user);
+                 applicationUser = user.MapSameProperties<ApplicationUser>();
+
             }
             return applicationUser;
         }
@@ -308,7 +312,8 @@ namespace AutoSmartTechAPI.UserManager
             try
             {
                 var data = await this._unitOfWork.UserRepository.FindByIdAsync(userId);
-                return ApplicationUser.MapUserToApplicationUser(data);
+                return data.MapSameProperties<ApplicationUser>();
+
             }
             catch (Exception ex)
             {
@@ -319,19 +324,20 @@ namespace AutoSmartTechAPI.UserManager
         }
 
 
-        
+
         async Task<ApplicationUser> IUserStore<ApplicationUser, Guid>.FindByNameAsync(string userName)
         {
             var user = await _unitOfWork.UserRepository.GetFirstOrDefaultAsync(x => x.EmailAddress == userName);
             ApplicationUser applicationUser = null;
             if (user != null)
             {
-                applicationUser = ApplicationUser.MapUserToApplicationUser(user);
+                //  applicationUser = ApplicationUser.MapUserToApplicationUser(user);
+                applicationUser = user.MapSameProperties<ApplicationUser>();
 
             }
             return applicationUser;
         }
 
-      
+
     }
 }

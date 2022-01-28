@@ -5,7 +5,6 @@ using DataAccessLayer.DataEntities;
 using DataAccessLayer.Services;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace AutoSmartTechAPI.PermissonManager
 {
