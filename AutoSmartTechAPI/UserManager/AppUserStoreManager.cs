@@ -297,9 +297,9 @@ namespace AutoSmartTechAPI.UserManager
             ApplicationUser applicationUser = null;
             if ( user!= null)
             {
-                //var data = user.MapSameProperties<ApplicationUser>();
-                //applicationUser = ApplicationUser.MapUserToApplicationUser(user);
+             
                  applicationUser = user.MapSameProperties<ApplicationUser>();
+                 applicationUser.UserName = user.EmailAddress;
 
             }
             return applicationUser;
@@ -311,8 +311,10 @@ namespace AutoSmartTechAPI.UserManager
             ExceptionsAndLogging.NullExceptionsLogging(userId);
             try
             {
-                var data = await this._unitOfWork.UserRepository.FindByIdAsync(userId);
-                return data.MapSameProperties<ApplicationUser>();
+                var user = await this._unitOfWork.UserRepository.FindByIdAsync(userId);
+                var applicationUser = user.MapSameProperties<ApplicationUser>();
+                applicationUser.UserName = user.EmailAddress;
+                return applicationUser;
 
             }
             catch (Exception ex)
@@ -331,8 +333,9 @@ namespace AutoSmartTechAPI.UserManager
             ApplicationUser applicationUser = null;
             if (user != null)
             {
-                //  applicationUser = ApplicationUser.MapUserToApplicationUser(user);
+               
                 applicationUser = user.MapSameProperties<ApplicationUser>();
+                applicationUser.UserName = user.EmailAddress;
 
             }
             return applicationUser;

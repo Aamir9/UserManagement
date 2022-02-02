@@ -10,6 +10,7 @@ namespace AutoSmartTechAPI.PasswordManager
     {
         Task<bool> ResetPasswordAsync(Guid userId, String password);
         Task<bool> SetTempPasswordAsync(Guid userId, string password);
+        Task<bool> DeleteTempPassword(Guid userId);
     }
     public class PasswordManager : IPasswordManager , IDisposable
     {
@@ -60,6 +61,11 @@ namespace AutoSmartTechAPI.PasswordManager
         {
 
             return await passwordStoreManager.SetTempPasswordAsync(userId, password);
+        }
+
+        public async Task<bool> DeleteTempPassword(Guid userId)
+        {
+            return await passwordStoreManager.DeleteTempPassword(userId);
         }
     }
 

@@ -32,7 +32,7 @@ namespace AutoSmartTechAPI.PasswordManager
 
                 using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                 {
-                    userStoreManager.Update(user);
+                    _unitOfWork.UserRepository.Update(user);
                     await _unitOfWork.SaveChangesAsync();
                     scope.Complete();
 
@@ -59,8 +59,8 @@ namespace AutoSmartTechAPI.PasswordManager
 
                 using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                 {
-                    userStoreManager.Update(user);
-                    await userStoreManager.SaveChangesAsync();
+                    _unitOfWork.UserRepository.Update(user);
+                    await _unitOfWork.SaveChangesAsync();
                     scope.Complete();
                 }
 
@@ -71,6 +71,24 @@ namespace AutoSmartTechAPI.PasswordManager
                 ExceptionsAndLogging.CatchExceptionAndLogging(ex);
                 return false;
             }
+        }
+
+        public async Task<bool> DeleteTempPassword(Guid userId)
+        {
+
+            var user = await this._unitOfWork.UserRepository.FindByIdAsync(userId);
+
+            user.TempPassword = null;
+            user.UpdatedOn = DateTime.UtcNow;
+
+            using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            {
+                _unitOfWork.UserRepository.Update(user);
+                _unitOfWork.Save();
+                scope.Complete();
+            }
+
+            return true;
         }
     }
 }

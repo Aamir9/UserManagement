@@ -13,7 +13,7 @@ namespace AutoSmartTechAPI.Models
             UserName = EmailAddress;
 
         }
-
+        
 
         //public static ApplicationUser MapUserToApplicationUser(User user)
         //{
