@@ -53,6 +53,11 @@ namespace AutoSmartTechAPI.PasswordManager
 
         #endregion
 
+
+        public async Task<bool> DeleteTempPassword(Guid userId)
+        {
+            return await passwordStoreManager.DeleteTempPassword(userId);
+        }
         public async Task<bool> ResetPasswordAsync(Guid userId, string password)
         {
            return await passwordStoreManager.ResetPasswordAsync(userId, password);
@@ -63,10 +68,7 @@ namespace AutoSmartTechAPI.PasswordManager
             return await passwordStoreManager.SetTempPasswordAsync(userId, password);
         }
 
-        public async Task<bool> DeleteTempPassword(Guid userId)
-        {
-            return await passwordStoreManager.DeleteTempPassword(userId);
-        }
+        
     }
 
 
